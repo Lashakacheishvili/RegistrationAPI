@@ -23,15 +23,16 @@ namespace Service.ServiceImplementations
             if (model == null)
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Model არ შეიძლება ცარიელი იყოს");
             if (!userId.HasValue && !model.ChildId.HasValue)
-                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Parrent  და Child არ შეიძლება ცარიელი იყოს");
+                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Parrent  ან Child არ შეიძლება ცარიელი იყოს");
             if (userId.HasValue && !model.ChildId.HasValue)
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Child არ შეიძლება ცარიელი იყოს");
             if (string.IsNullOrEmpty(model.Name))
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "მიზეზის მითითება აუციებელია");
             if (model.Amount > 0)
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "თანხის მითითება აუციებელია");
-            if (!_dbContext.Users.Any(s => s.Id == userId.Value))
-                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Parrent არ არსებობს");
+            var user = _dbContext.Users.FirstOrDefault(s => s.Id == userId.Value);
+            if (user == null)
+                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "იუზერი არ არსებობს");
             if (!_dbContext.Users.Any(s => s.Id == model.ChildId.Value))
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Child არ არსებობს");
             if (!_dbContext.Users.Any(s => s.Id == model.ChildId.Value && s.ParrentId == userId.Value))
@@ -42,7 +43,7 @@ namespace Service.ServiceImplementations
                 Name = model.Name,
                 ChildId = model.ChildId,
                 Description = model.Description,
-                ParrentId = userId,
+                ParrentId = user.ParrentId.HasValue ? (int?)null : user.Id,
                 Required = model.Required,
             });
             if (_dbContext.SaveChanges() > 0)
@@ -58,7 +59,7 @@ namespace Service.ServiceImplementations
             if (!model.Id.HasValue)
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Id არ შეიძლება ცარიელი იყოს");
             if (!userId.HasValue && !model.ChildId.HasValue)
-                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Parrent  და Child არ შეიძლება ცარიელი იყოს");
+                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Parrent  ან Child არ შეიძლება ცარიელი იყოს");
             if (userId.HasValue && !model.ChildId.HasValue)
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Child არ შეიძლება ცარიელი იყოს");
             if (string.IsNullOrEmpty(model.Name))
@@ -66,7 +67,7 @@ namespace Service.ServiceImplementations
             if (model.Amount > 0)
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "თანხის მითითება აუციებელია");
             if (!_dbContext.Users.Any(s => s.Id == userId.Value))
-                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Parrent არ არსებობს");
+                return new BaseResponseModel((int)HttpStatusCode.BadRequest, "იუზერი არ არსებობს");
             if (!_dbContext.Users.Any(s => s.Id == model.ChildId.Value))
                 return new BaseResponseModel((int)HttpStatusCode.BadRequest, "Child არ არსებობს");
             if (!_dbContext.Users.Any(s => s.Id == model.ChildId.Value && s.ParrentId == userId.Value))
@@ -102,7 +103,7 @@ namespace Service.ServiceImplementations
             var mainUset = _dbContext.Users.FirstOrDefault(s => s.Id == request.Id);
             if (mainUset == null)
                 return new ReasonResponseModel();
-            if(mainUset.Id!=userId && mainUset.ParrentId!=userId)
+            if (mainUset.Id != userId && mainUset.ParrentId != userId)
                 return new ReasonResponseModel();
             request.ChildId.Add(mainUset.Id);
             if (!mainUset.ParrentId.HasValue)
