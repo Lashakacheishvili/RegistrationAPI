@@ -10,6 +10,7 @@ namespace Service.Injection
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IReasonService, ReasonService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             return services;
         }
     }

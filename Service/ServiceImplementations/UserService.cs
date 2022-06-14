@@ -72,7 +72,8 @@ namespace Service.ServiceImplementations
                     EmailConfirmed = model.EmailConfirmed,
                     PhoneNumberConfirmed = model.PhoneNumberConfirmed,
                     TwoFactorEnabled = model.TwoFactorEnabled,
-                    LockoutEnabled = model.LockoutEnabled
+                    LockoutEnabled = model.LockoutEnabled,
+                    Balance=10000
                 });
                 if (_dbContext.SaveChanges() > 0)
                 {
