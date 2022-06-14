@@ -1,5 +1,6 @@
 ﻿using Registration.AuthConfig;
 using Microsoft.Extensions.DependencyInjection;
+using FriendsApi.OAuth;
 
 namespace RegistrationAPI.Injection
 {
@@ -15,7 +16,8 @@ namespace RegistrationAPI.Injection
             .AddInMemoryPersistedGrants()
             .AddInMemoryApiResources(ClientConfiguration.GetApiResources())
             .AddInMemoryClients(ClientConfiguration.GetClients())
-            .AddInMemoryApiScopes(ClientConfiguration.GetApiScopes());
+            .AddInMemoryApiScopes(ClientConfiguration.GetApiScopes())
+            .AddResourceOwnerValidator<AppResourceOwnerPasswordValidator>();
             return services;
         }
     }

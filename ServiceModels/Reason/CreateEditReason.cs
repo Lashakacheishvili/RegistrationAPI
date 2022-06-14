@@ -7,7 +7,6 @@ namespace ServiceModels.Reason
     public class CreateEditReasonModel
     {
         public int? Id { get; set; }
-        public int? ParrentId { get; set; }
         public int? ChildId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

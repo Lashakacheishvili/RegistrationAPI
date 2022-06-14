@@ -6,9 +6,9 @@ namespace Service.ServiceInterfaces
 {
     public interface IReasonService
     {
-        BaseResponseModel CreateReason(CreateEditReasonModel model);
-        BaseResponseModel EditReason(CreateEditReasonModel model);
-        BaseResponseModel DeleteReason(DeleteReasonModel model);
-        Task<ReasonResponseModel> GetReasons(ReasonRequestModel request);
+        BaseResponseModel CreateReason(CreateEditReasonModel model,int? userId);
+        BaseResponseModel EditReason(CreateEditReasonModel model, int? userId);
+        BaseResponseModel DeleteReason(DeleteReasonModel model, int? userId);
+        Task<ReasonResponseModel> GetReasons(ReasonRequestModel request, int? userId);
     }
 }

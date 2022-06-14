@@ -31,6 +31,13 @@ namespace RegistrationAPI.Injection
                         "RegistrationApi"
                     });
                 });
+                c.AddPolicy("RegistrationUser", p =>
+                {
+                    p.RequireClaim("scope", new string[]
+                    {
+                        "RegistrationUserApi"
+                    });
+                });
             });
             return services;
         }

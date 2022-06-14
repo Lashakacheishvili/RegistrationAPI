@@ -8,6 +8,5 @@ namespace ServiceModels.Reason
     {
         public uint Id { get; set; }
         public string DeleteDescription { get; set; }
-        public int ParrentId { get; set; }
     }
 }
