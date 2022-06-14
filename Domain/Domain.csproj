@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20220531095551_sdsad.cs" />
+    <Compile Remove="Migrations\20220531095551_sdsad.Designer.cs" />
+    <Compile Remove="Migrations\20220614050510_add-table-Reason-fields.cs" />
+    <Compile Remove="Migrations\20220614050510_add-table-Reason-fields.Designer.cs" />
+    <Compile Remove="Migrations\20220614050606_add-table-Reason-fields.cs" />
+    <Compile Remove="Migrations\20220614050606_add-table-Reason-fields.Designer.cs" />
+    <Compile Remove="Migrations\20220614064439_change-Id.cs" />
+    <Compile Remove="Migrations\20220614064439_change-Id.Designer.cs" />
+    <Compile Remove="Migrations\20220614070734_remove-Id.cs" />
+    <Compile Remove="Migrations\20220614070734_remove-Id.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.7" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
+</Project>
