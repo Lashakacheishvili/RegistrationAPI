@@ -7,6 +7,7 @@ using RegistrationAPI.Models;
 using Service.ServiceInterfaces;
 using ServiceModels;
 using ServiceModels.User;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -24,6 +25,12 @@ namespace RegistrationAPI.Controllers
             _userService = userService;
             _configuration = configuration; 
         }
+        [HttpGet("user_info")]
+        [Authorize("RegistrationUser")]
+        public UserProfileModel GetUser() => _userService.GetUser(UserId);
+        [HttpGet("childs")]
+        [Authorize("RegistrationUser")]
+        public List<UserProfileModel> GetChilds() => _userService.GetChilds(UserId);
         [HttpPost("create_user")]
         [Authorize(Policy = "Registration")]
         public BaseResponseModel CreateUser([FromBody] CreateUserApiModel request) => _userService.CreateUser(new CreateUserModel { UserName = request.UserName, PasswordHash = request.Password, ParrentUserName = request.ParrentUserName, UserRole = string.IsNullOrEmpty(request.ParrentUserName) ? UserRole.Parrent : UserRole.Child });
@@ -50,5 +57,11 @@ namespace RegistrationAPI.Controllers
             }
             return new LoginResponseModel { Success = true, AccessToken = tokenResponse.AccessToken };
         }
+        [HttpPatch("edit_user")]
+        [Authorize("RegistrationUser")]
+        public BaseResponseModel UpdateUser([FromBody]UpdateUserModel model) => _userService.UpdateUser(model, UserId);
+        [HttpPatch("change_password")]
+        [Authorize("RegistrationUser")]
+        public BaseResponseModel ChangePassword([FromBody]string password) => _userService.ChangePassword(password, UserId);
     }
 }
